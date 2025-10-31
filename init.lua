@@ -100,9 +100,6 @@ vim.g.have_nerd_font = false
 
 -- Make line numbers default
 vim.o.number = true
--- You can also add relative line numbers, to help with jumping.
---  Experiment for yourself to see if you like it!
--- vim.o.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.mouse = 'a'
@@ -166,6 +163,22 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
+-- NOTE: MY_OPTIONS
+vim.o.relativenumber = true
+
+vim.api.nvim_create_autocmd('InsertEnter', {
+  desc = 'Turn off relative line in insert mode',
+  callback = function()
+    vim.o.relativenumber = false
+  end,
+})
+
+vim.api.nvim_create_autocmd('InsertLeave', {
+  desc = 'Turn on relative line when exiting insert mode',
+  callback = function()
+    vim.o.relativenumber = true
+  end,
+})
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -205,6 +218,8 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
 -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 
+-- NOTE: MY_KEYMAPS
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -231,7 +246,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 
 ---@type vim.Option
-local rtp = vim.opt.rtp
+local rtp = vim.opt.rtp -- runtime path
 rtp:prepend(lazypath)
 
 -- [[ Configure and install plugins ]]
@@ -247,7 +262,9 @@ rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
+  -- NOTE: Single line plugins
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
+  'tpope/vim-surround',
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -282,6 +299,22 @@ require('lazy').setup({
         changedelete = { text = '~' },
       },
     },
+  },
+
+  -- NOTE: MY_PLUGINS
+  {
+    'pmizio/typescript-tools.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
+    opts = {},
+  },
+  {
+    'MeanderingProgrammer/render-markdown.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' }, -- if you use the mini.nvim suite
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' },        -- if you use standalone mini plugins
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+    ---@module 'render-markdown'
+    ---@type render.md.UserConfig
+    opts = {},
   },
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
@@ -516,7 +549,7 @@ require('lazy').setup({
       -- Neovim. This is where `mason` and related plugins come into play.
       --
       -- If you're wondering about lsp vs treesitter, you can check out the wonderfully
-      -- and elegantly composed help section, `:help lsp-vs-treesitter`
+      -- and elegan tly composed help section, `:help lsp-vs-treesitter`
 
       --  This function gets run when an LSP attaches to a particular buffer.
       --    That is to say, every time a new file is opened that is associated with
@@ -679,9 +712,9 @@ require('lazy').setup({
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
         --    https://github.com/pmizio/typescript-tools.nvim
-        --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
+        pyright = {},
         --
 
         lua_ls = {
@@ -898,6 +931,7 @@ require('lazy').setup({
     end,
   },
 
+  -- NOTE: example
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
