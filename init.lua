@@ -127,6 +127,8 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 
 -- NOTE: MY_KEYMAPS
 
+-- NOTE: MY_KEYMAPS
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -174,6 +176,8 @@ rtp:prepend(lazypath)
 
 -- NOTE: Plugins
 require('lazy').setup({
+  -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
+  -- NOTE: Single line plugins
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
   -- 'tpope/vim-surround',
 
@@ -190,12 +194,22 @@ require('lazy').setup({
       },
     },
   },
-
   -- NOTE: MY_PLUGINS
   { -- TypeScript support
     'pmizio/typescript-tools.nvim',
     dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
     opts = {},
+  },
+  { -- Oil file manager
+    'stevearc/oil.nvim',
+    ---@module 'oil'
+    ---@type oil.SetupOpts
+    opts = {},
+    -- Optional dependencies
+    dependencies = { { 'nvim-mini/mini.icons', opts = {} } },
+    -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
+    -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
+    lazy = false,
   },
   { -- Markdown rendering
     'MeanderingProgrammer/render-markdown.nvim',
@@ -537,6 +551,7 @@ require('lazy').setup({
             python = { venvPath = '.', venv = '.venv' },
           },
         },
+        biome = {},
 
         lua_ls = {
           -- cmd = { ... },
@@ -628,8 +643,7 @@ require('lazy').setup({
     event = 'VimEnter',
     version = '1.*',
     dependencies = {
-      -- Snippet Engine
-      {
+      { -- Snippet Engine
         'L3MON4D3/LuaSnip',
         version = '2.*',
         build = (function()
@@ -822,7 +836,8 @@ require('lazy').setup({
 
 
   -- { import = 'custom.plugins' },
-}, {
+}, 
+{ -- Nerd Font Configs
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
     -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
@@ -843,6 +858,8 @@ require('lazy').setup({
     },
   },
 })
+
+require('oil').setup()
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
