@@ -1,0 +1,50 @@
+-- Lazy Nerd Font UI Configs
+return {
+  ui = {
+    pills = true,
+    -- If you are using a Nerd Font: set icons to an empty table which will use the
+    -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
+    icons = vim.g.have_nerd_font and {
+      cmd = '⌘ ',
+      config = '🛠 ',
+      debug = '🐛 ',
+      event = '⏱ ',
+      favorite = '♥ ',
+      ft = '🖿 ',
+      init = '⚙ ',
+      import = '↪ ',
+      keys = '🗝 ',
+      lazy = '💤 ',
+      loaded = '✓ ',
+      not_loaded = 'X ',
+      plugin = '🔌 ',
+      runtime = '💻 ',
+      require = '🌙 ',
+      source = '📄 ',
+      start = '🚀 ',
+      task = '📌 ',
+      list = {
+        '● ',
+        '➜ ',
+        '★ ',
+        '‒ ',
+      },
+    } or {
+      cmd = '⌘',
+      config = '🛠',
+      event = '⏱️',
+      ft = '📂',
+      init = '⚙',
+      keys = '🗝',
+      plugin = '🔌',
+      runtime = '💻',
+      require = '🌙',
+      source = '📄',
+      start = '🚀',
+      task = '📌',
+      lazy = '💤',
+      loaded = '✅',
+      not_loaded = '❌',
+    },
+  },
+}
