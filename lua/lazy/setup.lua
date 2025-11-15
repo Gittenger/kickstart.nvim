@@ -40,6 +40,7 @@ require('lazy').setup({
   require 'lazy.plugins.autoformat',
   require 'lazy.plugins.blink',
   require 'lazy.plugins.treesitter',
+  require 'lazy.plugins.ufo',
 
   -- Theme
   require 'lazy.plugins.themes.tokyo-night',
